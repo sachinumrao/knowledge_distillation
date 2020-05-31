@@ -127,3 +127,10 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Datafolders
+mnist/.idea/*
+mnist/wandb/*
+mnist/CIFAR10*
+mnist/.DS*
+

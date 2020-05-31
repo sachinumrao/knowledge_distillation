@@ -106,7 +106,7 @@ class NNModel(pl.LightningModule):
 if __name__ == '__main__':
 
     # Create logger
-    wandb_logger = WandbLogger(project="CIFAR10_SimpleNN", save_dir="~/wandb_logs/")
+    wandb_logger = WandbLogger(project="CIFAR10_SimpleNN")
 
     # Create model
     model = NNModel()
