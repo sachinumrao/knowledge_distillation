@@ -124,12 +124,12 @@ def load_zeta_dataset(tokenizer, num_samples: int = -1):
 
 
 def load_model(model_id):
-    quant_config = TorchAoConfig(quant_type="int4_weight_only", group_size=128)
+    quant_config = TorchAoConfig(quant_type="int8_weight_only", group_size=128)
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(
         model_id,
         torch_dtype="auto",
-        # attn_implementation="eager",
+        attn_implementation="eager",
         trust_remote_code=True,
         quantization_config=quant_config,
         device_map="auto",
@@ -138,7 +138,6 @@ def load_model(model_id):
 
 
 def main():
-
     # load quantized model
     model_id = "Qwen/Qwen2.5-Coder-0.5B"
     print("Loading base model...")
@@ -149,9 +148,7 @@ def main():
     # load dataset
     print("Loading dataset...")
     train_dataset, eval_dataset = load_zeta_dataset(tokenizer, num_samples=64)
-    data_collator = DataCollatorForCompletionOnlyLM(
-        RESPONSE_TEMPLATE, tokenizer=tokenizer
-    )
+    data_collator = DataCollatorForCompletionOnlyLM(RESPONSE_TEMPLATE, tokenizer=tokenizer)
 
     # lora config
     peft_config = LoraConfig(
